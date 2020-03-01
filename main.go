@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/stregatto/go_ex1-grab-http-stats/file"
-	"github.com/stregatto/go_ex1-grab-http-stats/httplib"
+	"github.com/stregatto/go_ex2-grab-http-stats_with_channels/file"
+	"github.com/stregatto/go_ex2-grab-http-stats_with_channels/httplib"
 )
 
 func main() {
