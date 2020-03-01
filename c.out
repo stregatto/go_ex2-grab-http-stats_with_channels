@@ -1,0 +1,21 @@
+mode: set
+github.com/stregatto/go_ex1-grab-http-stats/file/main.go:9.23,10.16 1 1
+github.com/stregatto/go_ex1-grab-http-stats/file/main.go:10.16,11.13 1 0
+github.com/stregatto/go_ex1-grab-http-stats/file/main.go:16.30,22.21 6 1
+github.com/stregatto/go_ex1-grab-http-stats/file/main.go:25.2,25.13 1 1
+github.com/stregatto/go_ex1-grab-http-stats/file/main.go:22.21,24.3 1 1
+github.com/stregatto/go_ex1-grab-http-stats/main.go:8.13,12.2 3 0
+github.com/stregatto/go_ex1-grab-http-stats/httplib/main.go:26.25,27.22 1 0
+github.com/stregatto/go_ex1-grab-http-stats/httplib/main.go:27.22,36.3 8 0
+github.com/stregatto/go_ex1-grab-http-stats/httplib/main.go:40.44,43.27 3 1
+github.com/stregatto/go_ex1-grab-http-stats/httplib/main.go:46.2,46.16 1 1
+github.com/stregatto/go_ex1-grab-http-stats/httplib/main.go:43.27,45.3 1 1
+github.com/stregatto/go_ex1-grab-http-stats/httplib/main.go:52.35,61.32 4 1
+github.com/stregatto/go_ex1-grab-http-stats/httplib/main.go:89.2,105.3 6 1
+github.com/stregatto/go_ex1-grab-http-stats/httplib/main.go:61.32,63.4 1 1
+github.com/stregatto/go_ex1-grab-http-stats/httplib/main.go:66.46,68.4 1 0
+github.com/stregatto/go_ex1-grab-http-stats/httplib/main.go:69.44,71.4 1 0
+github.com/stregatto/go_ex1-grab-http-stats/httplib/main.go:72.44,74.4 1 1
+github.com/stregatto/go_ex1-grab-http-stats/httplib/main.go:75.54,77.4 1 1
+github.com/stregatto/go_ex1-grab-http-stats/httplib/main.go:78.29,80.4 1 0
+github.com/stregatto/go_ex1-grab-http-stats/httplib/main.go:81.61,83.4 1 0
