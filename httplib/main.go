@@ -22,17 +22,20 @@ type Stat struct {
 }
 
 func Print(c <-chan Stat, n int) {
-	fmt.Println(n)
 	for i := 0; i < n; i++ {
 		s := <-c
 		fmt.Printf("URL: %v\n", s.url)
-		fmt.Printf("\tReturn code:\t\t%v\n", s.returnCode)
-		fmt.Printf("\tContent length [bytes]:\t%v\n", s.contentLength)
-		fmt.Printf("\tResponse time:\t\t%v\n", s.responseTime)
-		fmt.Printf("\tDNS query time:\t\t%v\n", s.DNSQueryTime)
-		fmt.Printf("\tConnect time:\t\t%v\n", s.ConnectTime)
-		fmt.Printf("\tTLS handshake time:\t%v\n", s.TLSHandshake)
-		fmt.Printf("\tTime to first bite:\t%v\n", s.TTFB)
+		if s.err == nil {
+			fmt.Printf("\tReturn code:\t\t%v\n", s.returnCode)
+			fmt.Printf("\tContent length [bytes]:\t%v\n", s.contentLength)
+			fmt.Printf("\tResponse time:\t\t%v\n", s.responseTime)
+			fmt.Printf("\tDNS query time:\t\t%v\n", s.DNSQueryTime)
+			fmt.Printf("\tConnect time:\t\t%v\n", s.ConnectTime)
+			fmt.Printf("\tTLS handshake time:\t%v\n", s.TLSHandshake)
+			fmt.Printf("\tTime to first bite:\t%v\n", s.TTFB)
+		} else {
+			fmt.Printf("\tError: %v\n", s.err)
+		}
 	}
 }
 
@@ -40,7 +43,6 @@ func Print(c <-chan Stat, n int) {
 func Stats(xURL ...string) chan Stat {
 	cStats := make(chan Stat)
 	for _, URL := range xURL {
-		fmt.Println("starting URL", URL)
 		go func(c chan Stat, u string) {
 			c <- statFromUrl(u)
 		}(cStats, URL)
@@ -51,7 +53,10 @@ func Stats(xURL ...string) chan Stat {
 //statFromUrl collects stats about TTFB (Time to first byte) I'm using
 //the below answer from stackoverflow.com
 //https://stackoverflow.com/questions/48077098/getting-ttfb-time-to-first-byte-value-in-golang/48077762?r=SearchResults#48077762
+//returnCode is -1 if query returns error.
+//contentLength is -1 if query returns error or the contentLength is unknown https://golang.org/pkg/net/http/
 func statFromUrl(URL string) Stat {
+
 	var start, connect, dns, tlsHandshake time.Time
 	var DNSQueryTime, ConnectTime, TLSHandshake, TTFB, TotalTime time.Duration
 
@@ -93,16 +98,28 @@ func statFromUrl(URL string) Stat {
 	resp, err := http.DefaultTransport.RoundTrip(req)
 	TotalTime = time.Since(start)
 	responseTime := time.Since(start)
+	var contentLength int64
+	var returnCode int
+
+	// fix some response value in case of error
+	if err != nil {
+		contentLength = -1
+		returnCode = -1
+	} else {
+		contentLength = resp.ContentLength
+		returnCode = resp.StatusCode
+	}
+
 	return Stat{
 		url:           URL,
-		contentLength: resp.ContentLength,
+		contentLength: contentLength,
 		responseTime:  responseTime,
 		DNSQueryTime:  DNSQueryTime,
 		ConnectTime:   ConnectTime,
 		TLSHandshake:  TLSHandshake,
 		TTFB:          TTFB,
 		TotalTime:     TotalTime,
-		returnCode:    resp.StatusCode,
+		returnCode:    returnCode,
 		err:           err,
 	}
 }
