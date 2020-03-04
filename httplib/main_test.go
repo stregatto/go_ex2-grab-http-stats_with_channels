@@ -29,14 +29,14 @@ func TestStats(t *testing.T) {
 	xTestStats := map[string]Stat{
 		server.URL:                       {url: server.URL, contentLength: 18, responseTime: 2000 * time.Microsecond, returnCode: 200},
 		`http://someunexistenturl.wrong`: {url: `http://someunexistenturl.wrong`, contentLength: -1, responseTime: 5000 * time.Microsecond, returnCode: -1},
-		`http://verywrong.wrong`:         {url: `http://verywrong.wrong`, contentLength: -1, responseTime: 5000 * time.Microsecond, returnCode: -1},
+		`verywrong.wrong`:                {url: `verywrong.wrong`, contentLength: -1, responseTime: 5000 * time.Microsecond, returnCode: -1},
 	}
 
 	// This is the list (slice x) of URLs I would like to test
 	var xTestListOfUrls = []string{
 		server.URL,
 		`http://someunexistenturl.wrong`,
-		`http://verywrong.wrong`,
+		`verywrong.wrong`,
 	}
 	// let's test the function, not all fields are tested
 	cStats := Stats(xTestListOfUrls...)
