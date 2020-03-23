@@ -2,8 +2,8 @@ package main
 
 import (
 	"flag"
-	"github.com/stregatto/go_ex2-grab-http-stats_with_channels/file"
-	"github.com/stregatto/go_ex2-grab-http-stats_with_channels/httplib"
+	"github.com/stregatto/urlsstats/file"
+	"github.com/stregatto/urlsstats/httplib"
 )
 
 func main() {

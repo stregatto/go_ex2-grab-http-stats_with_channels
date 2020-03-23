@@ -8,19 +8,12 @@ import (
 	"time"
 )
 
-/*type Stats struct {
-	url          string
-	contentLength int
-	responseTime int
-	returnCode   int8
-}*/
-
 func TestStats(t *testing.T) {
 
 	// starting a test server, with content type html and bothering answer
 	handler := func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", `text/html; charset=UTF-8`)
-		io.WriteString(w, `hello, I'm a test'`)
+		_, _ = io.WriteString(w, `hello, I'm a test'`)
 	}
 	server := httptest.NewServer(http.HandlerFunc(handler))
 	defer server.Close()
@@ -28,7 +21,7 @@ func TestStats(t *testing.T) {
 	// this is the slice (x) containing what I'm expecting to test
 	xTestStats := map[string]Stat{
 		server.URL:                       {url: server.URL, contentLength: 18, responseTime: 2000 * time.Microsecond, returnCode: 200},
-		`http://someunexistenturl.wrong`: {url: `http://someunexistenturl.wrong`, contentLength: -1, responseTime: 5000 * time.Microsecond, returnCode: -1},
+		`http://someunexistenturl.wrong`: {url: `http://someunexistenturl.wrong`, contentLength: -1, responseTime: 50000 * time.Microsecond, returnCode: -1},
 		`verywrong.wrong`:                {url: `verywrong.wrong`, contentLength: -1, responseTime: 5000 * time.Microsecond, returnCode: -1},
 	}
 
@@ -55,4 +48,24 @@ func TestStats(t *testing.T) {
 			t.Errorf("Expected: %v, got: %v", xTestStats[ts.url].url, ts.url)
 		}
 	}
+}
+
+func BenchmarkStats(b *testing.B) {
+	// starting a test server, with content type html and bothering answer
+	handler := func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", `text/html; charset=UTF-8`)
+		_, _ = io.WriteString(w, `hello, I'm a test'`)
+	}
+	server := httptest.NewServer(http.HandlerFunc(handler))
+	defer server.Close()
+	// just a local URL to be tested, this is a benchmark.
+	var xTestListOfUrls = []string{
+		server.URL,
+	}
+	for i := 0; i < b.N; i++ {
+		cStats := Stats(xTestListOfUrls...)
+		// we can throw out everything is returned.
+		_ = <-cStats
+	}
+
 }
