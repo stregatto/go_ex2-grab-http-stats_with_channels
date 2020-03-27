@@ -1,3 +1,4 @@
+//Package httplib provides core functions for urlsstats like URLs queries
 package httplib
 
 import (

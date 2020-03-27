@@ -1,3 +1,4 @@
+// Package urlstats provides functionality to query an URLs list and returns some useful stats.
 package main
 
 import (
