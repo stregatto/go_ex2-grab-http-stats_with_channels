@@ -20,9 +20,9 @@ func TestStats(t *testing.T) {
 
 	// this is the slice (x) containing what I'm expecting to test
 	xTestStats := map[string]Stat{
-		server.URL:                       {Url: server.URL, ContentLength: 18, ResponseTime: 2000 * time.Microsecond, ReturnCode: 200},
-		`http://someunexistenturl.wrong`: {Url: `http://someunexistenturl.wrong`, ContentLength: -1, ResponseTime: 50000 * time.Microsecond, ReturnCode: -1},
-		`verywrong.wrong`:                {Url: `verywrong.wrong`, ContentLength: -1, ResponseTime: 5000 * time.Microsecond, ReturnCode: -1},
+		server.URL:                       {URL: server.URL, ContentLength: 18, ResponseTime: 2000 * time.Microsecond, ReturnCode: 200},
+		`http://someunexistenturl.wrong`: {URL: `http://someunexistenturl.wrong`, ContentLength: -1, ResponseTime: 50000 * time.Microsecond, ReturnCode: -1},
+		`verywrong.wrong`:                {URL: `verywrong.wrong`, ContentLength: -1, ResponseTime: 5000 * time.Microsecond, ReturnCode: -1},
 	}
 
 	// This is the list (slice x) of URLs I would like to test
@@ -35,17 +35,17 @@ func TestStats(t *testing.T) {
 	cStats := Stats(xTestListOfUrls...)
 	for i := 0; i < len(xTestListOfUrls); i++ {
 		ts := <-cStats
-		if ts.ReturnCode != xTestStats[ts.Url].ReturnCode {
-			t.Errorf("URL: %v\n\tExpected: %v, got: %v", ts.Url, xTestStats[ts.Url].ReturnCode, ts.ReturnCode)
+		if ts.ReturnCode != xTestStats[ts.URL].ReturnCode {
+			t.Errorf("URL: %v\n\tExpected: %v, got: %v", ts.URL, xTestStats[ts.URL].ReturnCode, ts.ReturnCode)
 		}
-		if ts.ResponseTime > xTestStats[ts.Url].ResponseTime {
-			t.Errorf("URL: %v\n\tExpected response time minor of: %v, got: %v", ts.Url, xTestStats[ts.Url].ResponseTime, ts.ResponseTime)
+		if ts.ResponseTime > xTestStats[ts.URL].ResponseTime {
+			t.Errorf("URL: %v\n\tExpected response time minor of: %v, got: %v", ts.URL, xTestStats[ts.URL].ResponseTime, ts.ResponseTime)
 		}
-		if ts.ContentLength != xTestStats[ts.Url].ContentLength {
-			t.Errorf("URL: %v\n\tExpected: %v, got: %v", ts.Url, xTestStats[ts.Url].ContentLength, ts.ContentLength)
+		if ts.ContentLength != xTestStats[ts.URL].ContentLength {
+			t.Errorf("URL: %v\n\tExpected: %v, got: %v", ts.URL, xTestStats[ts.URL].ContentLength, ts.ContentLength)
 		}
-		if ts.Url != xTestStats[ts.Url].Url {
-			t.Errorf("Expected: %v, got: %v", xTestStats[ts.Url].Url, ts.Url)
+		if ts.URL != xTestStats[ts.URL].URL {
+			t.Errorf("Expected: %v, got: %v", xTestStats[ts.URL].URL, ts.URL)
 		}
 	}
 }

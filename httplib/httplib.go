@@ -9,7 +9,7 @@ import (
 
 //Stat collects infos from the url queried
 type Stat struct {
-	Url           string
+	URL           string
 	ContentLength int64
 	ResponseTime  time.Duration
 	DNSQueryTime  time.Duration
@@ -93,7 +93,7 @@ func statFromURL(URL string) Stat {
 	}
 
 	return Stat{
-		Url:           URL,
+		URL:           URL,
 		ContentLength: contentLength,
 		ResponseTime:  responseTime,
 		DNSQueryTime:  DNSQueryTime,

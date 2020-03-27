@@ -12,7 +12,7 @@ import (
 func Print(c <-chan httplib.Stat, n int) {
 	for i := 0; i < n; i++ {
 		s := <-c
-		fmt.Printf("URL: %v\n", s.Url)
+		fmt.Printf("URL: %v\n", s.URL)
 		if s.Err == nil {
 			fmt.Printf("\tReturn code:\t\t%v\n", s.ReturnCode)
 			fmt.Printf("\tContent length [bytes]:\t%v\n", s.ContentLength)
@@ -27,7 +27,7 @@ func Print(c <-chan httplib.Stat, n int) {
 	}
 }
 
-// Print pretty prints all infos collected from Stats to standard output in json format
+// Jprint pretty prints all infos collected from Stats to standard output in json format
 func Jprint(c <-chan httplib.Stat, n int) {
 	stats := make([]httplib.Stat, n)
 	for i := 0; i < n; i++ {
