@@ -2,7 +2,6 @@ package httplib
 
 import (
 	"crypto/tls"
-	"fmt"
 	"net/http"
 	"net/http/httptrace"
 	"time"
@@ -10,35 +9,16 @@ import (
 
 //Stat collects infos from the url queried
 type Stat struct {
-	url           string
-	contentLength int64
-	responseTime  time.Duration
+	Url           string
+	ContentLength int64
+	ResponseTime  time.Duration
 	DNSQueryTime  time.Duration
 	ConnectTime   time.Duration
 	TLSHandshake  time.Duration
 	TTFB          time.Duration
 	TotalTime     time.Duration
-	returnCode    int
-	err           error
-}
-
-// Print prints all infos collected from Stats
-func Print(c <-chan Stat, n int) {
-	for i := 0; i < n; i++ {
-		s := <-c
-		fmt.Printf("URL: %v\n", s.url)
-		if s.err == nil {
-			fmt.Printf("\tReturn code:\t\t%v\n", s.returnCode)
-			fmt.Printf("\tContent length [bytes]:\t%v\n", s.contentLength)
-			fmt.Printf("\tResponse time:\t\t%v\n", s.responseTime)
-			fmt.Printf("\tDNS query time:\t\t%v\n", s.DNSQueryTime)
-			fmt.Printf("\tConnect time:\t\t%v\n", s.ConnectTime)
-			fmt.Printf("\tTLS handshake time:\t%v\n", s.TLSHandshake)
-			fmt.Printf("\tTime to first bite:\t%v\n", s.TTFB)
-		} else {
-			fmt.Printf("\tError: %v\n", s.err)
-		}
-	}
+	ReturnCode    int
+	Err           error
 }
 
 //Stats returns a slice of stats type
@@ -113,15 +93,15 @@ func statFromURL(URL string) Stat {
 	}
 
 	return Stat{
-		url:           URL,
-		contentLength: contentLength,
-		responseTime:  responseTime,
+		Url:           URL,
+		ContentLength: contentLength,
+		ResponseTime:  responseTime,
 		DNSQueryTime:  DNSQueryTime,
 		ConnectTime:   ConnectTime,
 		TLSHandshake:  TLSHandshake,
 		TTFB:          TTFB,
 		TotalTime:     TotalTime,
-		returnCode:    returnCode,
-		err:           err,
+		ReturnCode:    returnCode,
+		Err:           err,
 	}
 }
